@@ -4,7 +4,7 @@
 
 ## 内容
 
-本仓库包含四个可独立使用的技能：
+本仓库包含五个可独立使用的技能：
 
 | 技能 | 用途 |
 |---|---|
@@ -12,6 +12,7 @@
 | [amazon-profit-analysis](skills/amazon-profit-analysis/SKILL.md) | 网页利润分析报告；必要输入缺失时要求用户补充，补齐后计算 |
 | [amazon-category-analysis](skills/amazon-category-analysis/SKILL.md) | 网页类目分析报告；市场容量、Top100销量与Top100／Top50竞争门槛 |
 | [amazon-keyword-analysis](skills/amazon-keyword-analysis/SKILL.md) | 网页研究核心词、长尾词、搜索量、竞争和CPC竞价，输出有来源的HTML报告 |
+| [amazon-differentiation-analysis](skills/amazon-differentiation-analysis/SKILL.md) | 竞品与1–3星差评研究，输出差异化方案、增量成本和验证方式的网页报告 |
 
 - 9种发现渠道及6个补充视角，分别记录对应工具、操作、优缺点和补验动作。
 - 可调整的方法优先分和研究投入权重，以及独立的商品初筛得分。
@@ -21,14 +22,15 @@
 - 类目容量按关键词需求、类目销量与单品销量交叉验证；Jungle Scout无key跳过反查，截图经验倍数与工具估算分别保存。
 - 关键词分析直接使用网页，无需API key；建议竞价与实际CPC分列，查询不创建广告，缺项说明原因。
 - 1–3星差评按质量与耐用性、尺寸与适配、使用场景缺失归类。
+- 差异化方案关联真实评论和竞品覆盖缺口；持续单件增量与一次性投入分列，验证计划包含对照、指标及通过标准。
 - 利润一票否决，缺失成本保持待验证。
 - [Excel选品表模板](skills/amazon-product-direction/assets/亚马逊选品表.xlsx)，包含七个工作表，商品实采区留空。
 
-四个技能均含可直接打开的单文件HTML报告模板。类目、关键词、利润技能被选品流程调用时只返回报告与证据，由选品技能统一写入选品表；单独调用不会生成或更新选品表。网页／文件能力不足时交付完整可读报告并说明具体限制，不声称已完成网页展示。网页中的初筛推荐表示优先研究，完整进入仍受利润否决及其他证据约束。
+五个技能均含可直接打开的单文件HTML报告模板。类目、关键词、利润、差异化技能被选品流程调用时只返回报告与证据，由选品技能统一写入选品表；单独调用不会生成或更新选品表。网页／文件能力不足时交付完整可读报告并说明具体限制，不声称已完成网页展示。网页中的初筛推荐表示优先研究，完整进入仍受利润否决及其他证据约束。
 
 ## 安装与使用
 
-本仓库使用通用[Agent Skills格式](https://agentskills.io/specification)。四个技能的SKILL.md、规则、输入和资源可供支持该格式的agent读取；agents/openai.yaml是可选的Codex/ChatGPT UI元数据。提问采用当前agent的输入工具或直接对话，必要计算输入缺失时必须追问；Jungle Scout无key属于明确跳过的工具路径，不阻塞其他类目分析。
+本仓库使用通用[Agent Skills格式](https://agentskills.io/specification)。五个技能的SKILL.md、规则、输入和资源可供支持该格式的agent读取；agents/openai.yaml是可选的Codex/ChatGPT UI元数据。提问采用当前agent的输入工具或直接对话，必要计算输入缺失时必须追问；Jungle Scout无key属于明确跳过的工具路径，不阻塞其他类目分析。
 
 ### 安装脚本
 
@@ -59,6 +61,9 @@ sh install.sh --agent claude --skill amazon-category-analysis
 
 # 只安装关键词分析，含独立HTML报告模板
 sh install.sh --agent claude --skill amazon-keyword-analysis
+
+# 只安装差异化分析，含独立网页报告模板
+sh install.sh --agent claude --skill amazon-differentiation-analysis
 
 # 指定项目目录安装
 sh install.sh --agent claude --scope project --project-dir /path/to/project
@@ -100,7 +105,7 @@ python3 scripts/install_skills.py --list
 
 ### 调用与工具能力
 
-Codex可用`$amazon-product-direction`、`$amazon-category-analysis`、`$amazon-profit-analysis`、`$amazon-keyword-analysis`；Claude Code可用对应的`/amazon-product-direction`、`/amazon-category-analysis`、`/amazon-profit-analysis`、`/amazon-keyword-analysis`。其他agent使用其技能选择器或自然语言要求使用对应技能。
+Codex可用`$amazon-product-direction`、`$amazon-category-analysis`、`$amazon-profit-analysis`、`$amazon-keyword-analysis`、`$amazon-differentiation-analysis`；Claude Code可用对应的`/amazon-product-direction`、`/amazon-category-analysis`、`/amazon-profit-analysis`、`/amazon-keyword-analysis`、`/amazon-differentiation-analysis`。其他agent使用其技能选择器或自然语言要求使用对应技能。
 
 ```text
 使用amazon-product-direction，为美国站厨房收纳建立候选池，记录方法、来源和初筛依据，输出Excel选品表，并在网页端给出推荐商品与推荐理由。
@@ -117,6 +122,12 @@ Codex可用`$amazon-product-direction`、`$amazon-category-analysis`、`$amazon-
 ```text
 使用amazon-keyword-analysis，通过网页分析美国站目标产品的核心词、长尾词、搜索量、竞争程度和CPC竞价，输出HTML分析报告；不可得的数据标缺项，建议竞价与实际CPC分别列出。
 ```
+
+```text
+使用amazon-differentiation-analysis，通过竞品和1–3星差评分析质量与耐用性、尺寸与适配、使用场景缺失，给出差异化方案、增量成本和验证方式，直接在网页端输出分析报告。
+```
+
+差异化技能按独立评论去重，区分主分类和次要标签，保留实际样本、父体／变体及版本；评论频次只代表本次样本。方案关联需求和竞品覆盖，成本保留自有基线、改进金额、单位、币种、报价来源、持续费用与一次性投入。成本无法计算时索取实际必要输入，其余研究继续；验证计划与已完成测试分开，缺报价不填0，未经实测不宣称改进有效。改进方案仍受完整利润复核和否决约束。
 
 关键词技能按Amazon、ASINSIGHT、Sif等实际可访问网页发现词并核验，公开页面不足时可读取已有授权的后台或用户报表。报告是无需外部依赖、可直接打开的单文件HTML，并在对话中给出结论与来源链接；没有文件能力时交付完整对话报告。搜索量保留站点、周期及估算状态，自然竞争与广告竞争分别判断；查询后台不创建或启动广告。CPC承受力需要广告归因订单CVR和每单收入等必要条件，阻塞计算时要求用户补充，不以长尾词或建议竞价推断真实转化和利润。
 
@@ -176,6 +187,10 @@ node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
 - [利润模型与官方工具](skills/amazon-profit-analysis/references/profit-model.md)
 - [利润网页报告与证据交接](skills/amazon-profit-analysis/references/output-contract.md)
 - [选品网页推荐与理由规则](skills/amazon-product-direction/references/web-report.md)
+- [差异化竞品与差评研究](skills/amazon-differentiation-analysis/references/review-research.md)
+- [差异化增量成本与验证](skills/amazon-differentiation-analysis/references/cost-and-validation.md)
+- [差异化网页报告与证据交接](skills/amazon-differentiation-analysis/references/output-contract.md)
+- [差异化HTML报告空模板](skills/amazon-differentiation-analysis/assets/report-template.html)
 - [利润计算器测试](skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs)：运行`node --test skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs`
 
-类目竞争规则的维护源为类目分析技能的references/category-competition.md。选品技能带同内容的本地副本，保证单独安装后仍可读取；修改维护源后运行`python3 scripts/sync_category_reference.py`，使用`--check`检查一致性。安装器自动发现skills下的技能，默认all会安装四个技能，现有macOS／Linux及Windows入口无需变更。
+类目竞争规则的维护源为类目分析技能的references/category-competition.md。选品技能带同内容的本地副本，保证单独安装后仍可读取；修改维护源后运行`python3 scripts/sync_category_reference.py`，使用`--check`检查一致性。安装器自动发现skills下的技能，默认all会安装五个技能，现有macOS／Linux及Windows入口无需变更。

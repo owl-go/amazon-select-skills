@@ -144,6 +144,15 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(installer.signature(package), installer.signature(self.source / 'amazon-keyword-analysis'))
         self.assertEqual(sorted(path.name for path in self.dest.iterdir()), ['amazon-keyword-analysis'])
 
+    def test_differentiation_only_install_is_self_contained(self):
+        script = ROOT / 'scripts/install_skills.py'
+        subprocess.run([sys.executable,str(script),'--dest',str(self.dest),'--skill','amazon-differentiation-analysis'],check=True,capture_output=True,text=True,cwd=self.base)
+        package = self.dest / 'amazon-differentiation-analysis'
+        for name in ['references/review-research.md','references/cost-and-validation.md','references/output-contract.md','assets/report-template.html','agents/openai.yaml']:
+            self.assertTrue((package / name).is_file())
+        self.assertEqual(installer.signature(package), installer.signature(self.source / 'amazon-differentiation-analysis'))
+        self.assertEqual(sorted(path.name for path in self.dest.iterdir()), ['amazon-differentiation-analysis'])
+
     def test_category_rule_mirror_is_current_for_independent_selection_install(self):
         subprocess.run([sys.executable,str(ROOT / 'scripts/sync_category_reference.py'),'--check'],check=True,capture_output=True,text=True,cwd=self.base)
         subprocess.run([sys.executable,str(ROOT / 'scripts/install_skills.py'),'--dest',str(self.dest),'--skill','amazon-product-direction'],check=True,capture_output=True,text=True)
