@@ -4,10 +4,12 @@
 
 默认六表：类目判断、选品表、市场与关键词、差评分析、选品方法、初筛规则。初筛允许跨类目候选池；深度研究每份仅一组前20。生成器默认第6–25行20个槽位，更多初筛记录可按同一结构扩展或分批。模板：assets/亚马逊选品表.xlsx。
 
-用 spreadsheets skill 的 load_workspace_dependencies 找到bundled Node与node_modules，在可写目录建立node_modules链接。执行：
+通用路径：复制assets/亚马逊选品表.xlsx为输出文件，用当前agent的表格工具或Python openpyxl等通用xlsx库按下列JSON字段填入；保留已有公式、表头、验证和样式。日期写可排序的日期值，所有未知金额留空。使用不计算公式的库时，通过Excel/LibreOffice或可用计算引擎重算后再验证结果；未重算前不宣称公式已验证。
+
+可选增强路径：已有@oai/artifact-tool时使用下列Node生成器。它依赖该特定运行时，不能把私有包当公开npm依赖安装；其他agent可直接填写模板。Codex环境可通过load_workspace_dependencies定位运行时，其他环境用实际可用的依赖路径。执行：
 
 ```bash
-<bundled-node> scripts/write_selection.mjs \
+<node> /path/to/amazon-product-direction/scripts/write_selection.mjs \
   --module-dir /path/to/working/node_modules \
   --data /path/to/research.json \
   --output /path/to/outputs/亚马逊选品_关键词_YYYYMMDD.xlsx \

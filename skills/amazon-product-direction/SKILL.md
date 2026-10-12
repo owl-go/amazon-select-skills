@@ -5,6 +5,8 @@ description: 亚马逊选品：按发现方法及工具建立候选池，做可�
 
 # 亚马逊选品
 
+这是通用Agent Skills技能。先定位本技能根目录，再按相对路径读取references、assets和scripts；使用当前agent提供的浏览、文件及表格能力。agents/openai.yaml仅是可选UI元数据，业务流程不依赖它。跨技能调用按当前agent支持的语法或读取对应技能执行。
+
 以市场容量、市场竞争、利润分析、关键词、差异化为主框架，最终交付Excel选品表。利润拥有一票否决权，其他优势不能抵消利润不达标。
 
 ## 输入与范围
@@ -20,8 +22,8 @@ description: 亚马逊选品：按发现方法及工具建立候选池，做可�
 1. 读取 [selection-methods.md](references/selection-methods.md)，选择适合已有权限与资源的发现渠道；记录主方法与辅助方法，不必执行全部。根据证据做初筛，按方法优缺点调整研究优先级，去重且不重复计分。
 2. 读取 [research-method.md](references/research-method.md)，确认五项分析、可比规格与利润规则。仅初筛请求可先交付候选池和分数，缺利润保持待验证，不把初筛入选当最终可做。
 3. 收集市场容量与关键词证据；深度研究采集前20，分析评论壁垒、SKU、新品和错配。保存来源及状态；不足20条保留缺口，跨类目初筛池不混算前20。
-4. 获取1–3星差评，按三类归纳，提出差异化与验证方式。针对自有产品方案核查完整成本并执行利润否决，核查专利与A+。已知利润失败即使初筛分高也排除。进入专门利润测算时，优先使用可用的 $amazon-profit-analysis；必要计算条件缺失必须向用户追问。初筛候选池仍允许利润待验证，不因尚未进入利润阶段而强求全部成本。
-5. 读取 [workbook-schema.md](references/workbook-schema.md)，用 spreadsheets skill 与工作区运行时按JSON运行 scripts/write_selection.mjs，或填写用户表。
+4. 获取1–3星差评，按三类归纳，提出差异化与验证方式。针对自有产品方案核查完整成本并执行利润否决，核查专利与A+。已知利润失败即使初筛分高也排除。进入专门利润测算时，优先使用可用的 amazon-profit-analysis 技能；必要计算条件缺失必须向用户追问。初筛候选池仍允许利润待验证，不因尚未进入利润阶段而强求全部成本。
+5. 读取 [workbook-schema.md](references/workbook-schema.md)，通用路径是复制Excel模板，用当前agent可用的表格工具或通用xlsx库按字段与公式填表。有@oai/artifact-tool时可用scripts/write_selection.mjs生成及渲染，专用生成器不是使用本技能的前提。
 6. 重算并检查指定列、方法与初筛依据、权重合计、去重、阈值、利润否决及缺失值传递、来源和显示，交付.xlsx。
 
 ## 输出
