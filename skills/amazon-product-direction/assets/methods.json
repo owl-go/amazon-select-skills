@@ -32,8 +32,8 @@
     {
       "name": "软件选品法",
       "type": "发现渠道",
-      "tools": "Jungle Scout Product Database／Opportunity Finder 或卖家精灵；POE",
-      "steps": "按站点、价格、尺寸等筛选后核查商品页",
+      "tools": "Jungle Scout或卖家精灵；POE；Sorftime BSR（已有key）；无key用Flapen＋ASINSIGHT",
+      "steps": "按站点、价格、尺寸等筛选后核查商品页，分开记录类目BSR与关键词样本",
       "pros": "批量效率高、可比较多个维度",
       "cons": "数据含估算；父子体口径和筛选同质化",
       "verification": "确认父体、来源日期，回到Amazon原页",
@@ -50,7 +50,10 @@
       "sources": [
         "https://www.junglescout.com/features/product-database/",
         "https://www.sellersprite.com/cn",
-        "https://sell.amazon.com/tools/product-opportunity-explorer"
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://www.sorftime.com/en-US",
+        "https://flapen.com/research/us",
+        "https://www.asinsight.com/"
       ],
       "checked_at": "2026-10-12"
     },
@@ -81,11 +84,11 @@
     {
       "name": "关键词选品法",
       "type": "发现渠道",
-      "tools": "卖家精灵关键词选品／挖掘；Jungle Scout Keyword Scout；Google Trends／POE",
+      "tools": "卖家精灵／Jungle Scout Keyword Scout／ASINSIGHT；Google Trends／POE；Amazon广告后台建议竞价",
       "steps": "稳定、增长、长尾词分组，匹配买家意图",
       "pros": "从需求出发，易衔接场景和广告",
       "cons": "搜索不等于购买，品牌词和小基数增长误导",
-      "verification": "核查绝对量、周期、相关性与商品结果",
+      "verification": "核查绝对量、周期、相关性；后台记录匹配类型、建议区间及币种，结合CVR复核利润承受力",
       "scenario": "有类目或目标人群，研究细分需求",
       "enabled": "是",
       "scores": [
@@ -99,7 +102,9 @@
       "sources": [
         "https://cn.sellersprite.com/cn/help/market-selection-guide",
         "https://support.junglescout.com/hc/en-us/articles/360008770253-Keyword-Scout",
-        "https://support.google.com/trends/answer/4365533?hl=zh-Hans"
+        "https://support.google.com/trends/answer/4365533?hl=zh-Hans",
+        "https://www.asinsight.com/",
+        "https://advertising.amazon.com/library/guides/targeting-with-sponsored-products/"
       ],
       "checked_at": "2026-10-12"
     },
@@ -155,11 +160,11 @@
     {
       "name": "优秀店铺选品法",
       "type": "发现渠道",
-      "tools": "Amazon卖家商品列表、品牌店铺、商品页；Keepa／卖家精灵辅助",
+      "tools": "Amazon卖家列表／品牌页；官方商标库；Keepa历史与网页推广查询",
       "steps": "比较能力相近店铺的新品、配件与产品组合",
       "pros": "参考具体、能理解扩品路径",
       "cons": "成功样本偏差，看不到广告及实际利润",
-      "verification": "同时记录停滞款，首批就找具体差异",
+      "verification": "比较评价与星级、商标、公开地区、SKU、文案图片、站外链接；同时记录停滞款及切入点",
       "scenario": "学习品类、找相邻产品",
       "enabled": "是",
       "scores": [
@@ -348,11 +353,11 @@
     {
       "name": "竞品分析法",
       "type": "补充视角",
-      "tools": "Amazon前20、Jungle Scout／卖家精灵、POE；Excel",
-      "steps": "核查评论壁垒、变体覆盖、新品与价格错配",
+      "tools": "Sorftime BSR（已有key）；无key用Flapen＋ASINSIGHT；Amazon广告后台、店铺、Keepa与网页",
+      "steps": "类目Top100／Top50、核心词竞价、店铺实力三层分析；另做关键词前20壁垒、SKU、新品与错配",
       "pros": "直接支持进入空间判断",
-      "cons": "快照及父子体口径误导，公开信息不含利润",
-      "verification": "统一口径并补差评、历史与自有方案成本",
+      "cons": "快照、父子体与垄断定义有差异；降级工具不一定覆盖所有指标，公开信息不含利润",
+      "verification": "分别保存样本、阈值、seller ID去重与缺项；建议竞价不当实际CPC，历史变化不当站外推广证明",
       "scenario": "贯穿全部方法的验证",
       "enabled": "否",
       "scores": [
@@ -366,7 +371,12 @@
       "sources": [
         "https://sell.amazon.com/tools/product-opportunity-explorer",
         "https://www.junglescout.com/features/product-database/",
-        "https://www.sellersprite.com/cn"
+        "https://www.sellersprite.com/cn",
+        "https://www.sorftime.com/en-US",
+        "https://flapen.com/research/us",
+        "https://www.asinsight.com/",
+        "https://advertising.amazon.com/library/guides/targeting-with-sponsored-products/",
+        "https://keepa.com/"
       ],
       "checked_at": "2026-10-12"
     }

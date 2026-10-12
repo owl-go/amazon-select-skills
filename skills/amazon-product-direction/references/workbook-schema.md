@@ -2,7 +2,7 @@
 
 ## 执行
 
-默认六表：类目判断、选品表、市场与关键词、差评分析、选品方法、初筛规则。初筛允许跨类目候选池；深度研究每份仅一组前20。生成器默认第6–25行20个槽位，更多初筛记录可按同一结构扩展或分批。模板：assets/亚马逊选品表.xlsx。
+默认七表：类目判断、选品表、市场与关键词、差评分析、选品方法、初筛规则、竞争分析。初筛允许跨类目候选池；深度研究每份仅一组前20。类目Top100／Top50证据另存竞争分析，不能塞进前20竞争行。生成器默认第6–25行20个槽位，更多初筛记录可按同一结构扩展或分批。模板：assets/亚马逊选品表.xlsx。
 
 通用路径：复制assets/亚马逊选品表.xlsx为输出文件，用当前agent的表格工具或Python openpyxl等通用xlsx库按下列JSON字段填入；保留已有公式、表头、验证和样式。日期写可排序的日期值，所有未知金额留空。使用不计算公式的库时，通过Excel/LibreOffice或可用计算引擎重算后再验证结果；未重算前不宣称公式已验证。
 
@@ -43,6 +43,7 @@
   "competitors": [],
   "reviews": [],
   "market_evidence": [],
+  "competition_evidence": [],
   "decision": {
     "sku_strategy": "尺寸、颜色覆盖与切入空间",
     "main_pain": "重复问题",
@@ -52,7 +53,12 @@
     "reference_asin": null,
     "patent_status": "待核查",
     "conclusion": "待验证",
-    "next_step": "补数据或验证动作"
+    "next_step": "补数据或验证动作",
+    "category_competition": null,
+    "keyword_competition": null,
+    "shop_competition": null,
+    "competition_tool_route": null,
+    "competition_gaps": null
   }
 }
 ```
@@ -60,6 +66,35 @@
 研究需marketplace、currency、collected_at，以及category或keyword。stage为初筛或深度研究，未指定时默认深度研究。缺失数字写null或省略，不用字符串，不以0替代。rank为唯一1–20；深度研究要求唯一ASIN与已知父体去重。初筛没有ASIN时需商品链接或可追溯来源，不能因此编造ASIN。日期为YYYY-MM-DD或null。
 
 research可配置screening_weights四个小数（市场容量、竞争、关键词、差异化，默认0.30、0.25、0.20、0.25），method_weights五个小数（需求证据、差异化发现、效率、资源匹配、获取成本，默认0.35、0.25、0.20、0.10、0.10），各组须合计1。
+
+### competition_evidence每项
+
+独立于competitors前20。竞争分析页A:O依次为层级、分析方法、对象、指标、观察／数值、单位、样本范围、定义、覆盖、规则、信号／分析、来源、日期、状态、缺口。详细规则见[competition-analysis.md](competition-analysis.md)。
+
+```json
+{
+  "metric": "new_product_3m",
+  "subject": "类目节点或关键词或seller ID",
+  "value": null,
+  "unit": null,
+  "sample_scope": "站点、配送地区、榜单或关键词范围、样本量、有效量",
+  "definition": "分子／分母、周期、去重、原工具统计定义",
+  "coverage": "未知",
+  "analysis": null,
+  "source": null,
+  "collected_at": null,
+  "status": "待采集",
+  "limit": "具体未查字段与补证动作"
+}
+```
+
+metric可用：new_product_3m、new_product_6m、listing_distribution、review_time_distribution、review_count_distribution、brand_monopoly、store_monopoly、amazon_retail_share、fbm_share、aplus_video_share、overall_rating、top50_low_review_sellers、keyword_bid、shop_reviews、shop_trademark、shop_location、shop_catalog、shop_listing、shop_external_promotion。可按不同关键词／卖家追加同类指标行。
+
+比例输入0–1小数并显示百分比；overall_rating为0–5数值，top50_low_review_sellers为0–50整数，rating数量<1000后按seller ID去重。keyword_bid用数值和币种，建议区间、匹配类型与实际CPC周期写definition，可分行记录。其他观察可用文字；analysis保存方向性分析。coverage为完整／部分／未知：完整指本行所声明且符合该指标要求的样本及字段全部取得，不能以少量样本自称完整Top100／Top50。status为实测／估算／假设／待采集。
+
+新品、垄断、自营和Top50阈值由Excel公式判断，需有值、范围、定义、完整覆盖、来源、日期以及实测／估算状态；缺项或假设保持待验证。品牌／店铺指标的原定义须先核实，代理指标保留为文字观察，不能冒充垄断率输入。其他指标需agent写分析，无自动通过线。模板均留空，不包含实采结论。
+
+decision新增category_competition、keyword_competition、shop_competition、competition_tool_route、competition_gaps，分别写入类目判断B55:B59。深度研究缺前三层结论时最终进入保持待验证；单项友好信号不会自动使最终进入通过，利润否决仍优先。
 
 ### competitors每项
 

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import {addScreening} from './screening.mjs';
+import {addCompetition,validateCompetitionEvidence} from './competition.mjs';
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {pathToFileURL} from 'node:url';
@@ -15,6 +16,7 @@ const safe=v=>typeof v==='string'&&/^[=+@]/.test(v)?`'${v}`:v??null;
 const date=v=>{if(v==null||v==='')return null;if(!/^\d{4}-\d{2}-\d{2}$/.test(v))throw Error(`日期须为YYYY-MM-DD: ${v}`);const d=new Date(`${v}T00:00:00Z`);if(!Number.isFinite(d.getTime())||d.toISOString().slice(0,10)!==v)throw Error(`无效日期: ${v}`);return d;};
 
 export function validate(p,template=false){
+  validateCompetitionEvidence(p);
   const r=p.research??{},rows=p.competitors??[],reviews=p.reviews??[];
   date(r.collected_at);
   if(r.stage&&!['初筛','深度研究'].includes(r.stage))throw Error('stage须为初筛或深度研究');
@@ -113,6 +115,7 @@ export function buildWorkbook(p,{Workbook},template=false){
   for(let row=6;row<=ve;row++)v.getRange(`I${row}`).formulas=[[`=IF(OR(A${row}="",B${row}="",F${row}=""),"",COUNTIFS($E$6:$E$${ve},E${row},$F$6:$F$${ve},F${row},$A$6:$A$${ve},"<>"))`]];
   widths(v,[16,8,17,50,23,32,32,40,17,35,44,44,17,40],ve);v.getRange(`A6:N${ve}`).format.wrapText=true;v.getRange(`A6:N${ve}`).format.rowHeight=58;for(const c of ['C','M'])v.getRange(`${c}6:${c}${ve}`).setNumberFormat('yyyy-mm-dd');num(v,`B6:B${ve}`,'whole',1,3);list(v,`E6:E${ve}`,CATEGORIES);table(v,`A5:N${ve}`,'ReviewSamples');
   addScreening(wb,p);
+  addCompetition(wb,p);
   return wb;
 }
 export async function loadArtifact(moduleDir){if(!moduleDir)throw Error('需--module-dir指定工作区node_modules');const require=createRequire(path.join(path.resolve(moduleDir),'..','selection-loader.cjs'));return import(pathToFileURL(require.resolve('@oai/artifact-tool')).href);}
@@ -125,7 +128,7 @@ async function main(){
   const scan=await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!',options:{useRegex:true,maxResults:50},maxChars:4000});
   if(scan.ndjson&&/"error"|"address"/.test(scan.ndjson))throw Error(`检查公式错误: ${scan.ndjson}`);
   await fs.mkdir(path.dirname(path.resolve(o['--output'])),{recursive:true});const out=await api.SpreadsheetFile.exportXlsx(wb);await out.save(o['--output']);
-  if(o['--render-dir']){await fs.mkdir(o['--render-dir'],{recursive:true});for(const [sheetName,range]of [['类目判断','A2:D25'],['类目判断','A26:D54'],['选品表','A2:H10'],['选品表','I5:S10'],['选品表','T5:AE10'],['选品表','AF5:AL10'],['选品表','AM5:AU10'],['选品方法','A2:I10'],['选品方法','J5:S10'],['选品方法','A11:I20'],['初筛规则','A2:F18'],['初筛规则','A20:B27'],['市场与关键词','A2:H10'],['市场与关键词','I5:N10'],['差评分析','A2:I10'],['差评分析','J5:N10']]){const img=await wb.render({sheetName,range,scale:1.2,format:'png'});await fs.writeFile(path.join(o['--render-dir'],`${sheetName}-${range.replace(':','-')}.png`),new Uint8Array(await img.arrayBuffer()));}}
-  console.log(JSON.stringify({output:path.resolve(o['--output']),competitors:p.competitors?.length??0,reviews:p.reviews?.length??0,sheets:['类目判断','选品表','市场与关键词','差评分析','选品方法','初筛规则']}));
+  if(o['--render-dir']){await fs.mkdir(o['--render-dir'],{recursive:true});for(const [sheetName,range]of [['类目判断','A2:D25'],['类目判断','A26:D54'],['类目判断','A55:D59'],['选品表','A2:H10'],['选品表','I5:S10'],['选品表','T5:AE10'],['选品表','AF5:AL10'],['选品表','AM5:AU10'],['选品方法','A2:I10'],['选品方法','J5:S10'],['选品方法','A11:I20'],['初筛规则','A2:F18'],['初筛规则','A20:B27'],['市场与关键词','A2:H10'],['市场与关键词','I5:N10'],['差评分析','A2:I10'],['差评分析','J5:N10'],['竞争分析','A2:F12'],['竞争分析','G5:K12'],['竞争分析','L5:O12'],['竞争分析','A13:F24'],['竞争分析','G13:K24'],['竞争分析','L13:O24']]){const img=await wb.render({sheetName,range,scale:1.2,format:'png'});await fs.writeFile(path.join(o['--render-dir'],`${sheetName}-${range.replace(':','-')}.png`),new Uint8Array(await img.arrayBuffer()));}}
+  console.log(JSON.stringify({output:path.resolve(o['--output']),competitors:p.competitors?.length??0,reviews:p.reviews?.length??0,sheets:['类目判断','选品表','市场与关键词','差评分析','选品方法','初筛规则','竞争分析']}));
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)main().catch(e=>{console.error(e.message);process.exitCode=1;});

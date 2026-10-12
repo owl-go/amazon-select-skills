@@ -24,7 +24,7 @@ export function addScreening(wb,p){
   setup(rules,'F',27,'初筛评分规则','初筛决定研究顺序；利润独立否决，不参与加权抵消');
   rules.getRange('A4:F4').values=[['候选权重',...productWeights,null]];rules.getRange('B4:E4').setNumberFormat('0%');rules.getRange('B4:E4').format.fill='#FFF4D5';
   rules.getRange('A5:F5').values=[['维度','市场容量','市场竞争','关键词','差异化','合计']];header(rules,'A5:F5');rules.getRange('F4').formulas=[['=SUM(B4:E4)']];rules.getRange('F4').setNumberFormat('0%');
-  rules.getRange('A7:F10').values=[['市场容量','30%默认','1：目标市场线索弱','3：有相关需求与趋势线索','5：多来源持续需求、规模有支撑','搜索量非销量；未知留空'],['市场竞争','25%默认','1：评论／品牌／变体壁垒明显','3：有新链接但进入点待验证','5：评论门槛低、新品活跃、有SKU缺口','初筛观察；深度判断看前20'],['关键词','20%默认','1：意图模糊或不匹配','3：核心词与用途匹配、有长尾','5：购买意图与需求证据清楚、可触达','过滤品牌及资讯词'],['差异化','25%默认','1：同款比价，无明确改进','3：具体痛点或场景，方案待验证','5：重复需求、可实现改善与验证计划','缺证据不凭想象打分']];
+  rules.getRange('A7:F10').values=[['市场容量','30%默认','1：目标市场线索弱','3：有相关需求与趋势线索','5：多来源持续需求、规模有支撑','搜索量非销量；未知留空'],['市场竞争','25%默认','1：集中、自营、评论或SKU壁垒明显','3：部分类目信号友好，词或店铺空间待验证','5：类目机会、广告承受力、店铺／SKU空间有证据','初筛注明限制；深度看三层竞争及前20'],['关键词','20%默认','1：意图模糊或不匹配','3：核心词与用途匹配、有长尾','5：购买意图与需求证据清楚、可触达','过滤品牌及资讯词'],['差异化','25%默认','1：同款比价，无明确改进','3：具体痛点或场景，方案待验证','5：重复需求、可实现改善与验证计划','缺证据不凭想象打分']];
   rules.getRange('A12:D14').values=[['初筛分档','最低分','用途','利润约束'],['优先深挖',75,'决定下一阶段研究顺序','利润未验证仍不能判可做'],['保留观察',60,'补齐较弱证据再研究','利润否决时直接排除']];header(rules,'A12:D12');rules.getRange('B13:B14').format.fill='#FFF4D5';
   rules.getRange('A16').values=[['方法优先级权重']];rules.getRange('A17:F17').values=[['维度','需求证据','差异化发现','执行效率','资源匹配','获取成本']];header(rules,'A17:F17');rules.getRange('B18:F18').values=[methodWeights];rules.getRange('B18:F18').setNumberFormat('0%');rules.getRange('B18:F18').format.fill='#FFF4D5';
   rules.getRange('A20:B25').values=[['评分方向','各项1–5，越高越好；获取成本高分表示更容易／成本更低'],['候选计算','四项分数×各自权重×20，满分100，四项齐全才显示总分'],['方法计算','五项分数×权重×20；启用渠道按优先分归一为建议投入权重'],['重复证据','同一商品被多个方法发现，不重复加分；同源工具不是独立证据'],['评分依据','方法默认分为分析建议，非官方统计或成功率；资源未知暂中性3分'],['利润规则','毛利率≥目标ACoS＋安全余量；默认30%＋5%=35%，完整成本净利润>0']];
@@ -39,6 +39,7 @@ export function addScreening(wb,p){
   }
   validation(method,'I6:I20',['是','否']);method.getRange('I6:N20').format.fill='#FFF4D5';method.dataValidations.add({range:'J6:N20',rule:{type:'whole',operator:'between',formula1:1,formula2:5}});method.getRange('O6:O20').setNumberFormat('0');method.getRange('P6:P20').setNumberFormat('0.0%');method.getRange('S6:S20').setNumberFormat('yyyy-mm-dd');
   [27,16,48,45,38,44,44,38,13,14,14,14,14,14,17,18,50,52,17].forEach((w,i)=>method.getRange(`${col(i)}5:${col(i)}20`).format.columnWidth=w);method.getRange('A6:S20').format.wrapText=true;method.getRange('A6:S20').format.rowHeight=110;method.tables.add('A5:S20',true,'SelectionMethods').showFilterButton=true;method.freezePanes.freezeRows(5);method.freezePanes.freezeColumns(1);
+  for(const row of [7,9,20])method.getRange(`A${row}:S${row}`).format.autofitRows();
 
   main.getRange('AM5:AU5').values=[extras];header(main,'AM5:AU5');main.getRange('AM6:AU25').format.font={name:'Arial',size:11,color:'#243247'};main.getRange('AM6:AU25').format.verticalAlignment='center';main.getRange('AM6:AU25').format.wrapText=true;
   for(let row=6;row<=25;row++){

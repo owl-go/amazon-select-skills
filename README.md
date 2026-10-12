@@ -14,9 +14,11 @@
 - 9种发现渠道及6个补充视角，分别记录对应工具、操作、优缺点和补验动作。
 - 可调整的方法优先分和研究投入权重，以及独立的商品初筛得分。
 - 前20竞品的评论壁垒、变体策略、新品机会、价格与评分错配分析。
+- 三层竞争分析：BSR Top100新品／垄断／卖家类型／星级，Top50低评论卖家，核心词竞价与店铺实力。
+- 有Sorftime key时优先使用；未提供则降级Flapen＋ASINSIGHT，按实际覆盖补证。Keepa历史辅助店铺分析，站外推广由网页链接核实。
 - 1–3星差评按质量与耐用性、尺寸与适配、使用场景缺失归类。
 - 利润一票否决，缺失成本保持待验证。
-- [Excel选品表模板](skills/amazon-product-direction/assets/亚马逊选品表.xlsx)，包含六个工作表，商品实采区留空。
+- [Excel选品表模板](skills/amazon-product-direction/assets/亚马逊选品表.xlsx)，包含七个工作表，商品实采区留空。
 
 ## 安装与使用
 
@@ -130,12 +132,13 @@ node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
 
 “评分”是商品评价星级，满分5星；“初筛得分”是右侧独立的百分制字段。右侧还包括来源、辅助方法、评分依据与覆盖率，以及完整成本、净利和利润判断。
 
-六个工作表：类目判断、选品表、市场与关键词、差评分析、选品方法、初筛规则。
+七个工作表：类目判断、选品表、市场与关键词、差评分析、选品方法、初筛规则、竞争分析。竞争页保存独立样本、统计定义、来源和缺项，阈值产生单项信号，综合进入仍受完整证据及利润否决约束。
 
 ## 参考与生成器
 
 - [方法、工具与初筛规则](skills/amazon-product-direction/references/selection-methods.md)
 - [市场、竞争与利润研究方法](skills/amazon-product-direction/references/research-method.md)
+- [三层竞争分析、阈值与工具降级](skills/amazon-product-direction/references/competition-analysis.md)
 - [Excel字段、JSON输入与生成命令](skills/amazon-product-direction/references/workbook-schema.md)
 - [方法与工具数据源](skills/amazon-product-direction/assets/methods.json)
 - [利润模型与官方工具](skills/amazon-profit-analysis/references/profit-model.md)
