@@ -4,7 +4,12 @@
 
 ## 内容
 
-本仓库包含一个技能：[amazon-product-direction](skills/amazon-product-direction/SKILL.md)。
+本仓库包含两个可独立使用的技能：
+
+| 技能 | 用途 |
+|---|---|
+| [amazon-product-direction](skills/amazon-product-direction/SKILL.md) | 发现候选、加权初筛、市场与竞争研究，输出选品表 |
+| [amazon-profit-analysis](skills/amazon-profit-analysis/SKILL.md) | 单品利润与广告承受力分析；必要输入缺失时要求用户补充，补齐后计算 |
 
 - 9种发现渠道及6个补充视角，分别记录对应工具、操作、优缺点和补验动作。
 - 可调整的方法优先分和研究投入权重，以及独立的商品初筛得分。
@@ -20,7 +25,7 @@
 ```bash
 git clone https://github.com/owl-go/amazon-select-skills.git
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R amazon-select-skills/skills/amazon-product-direction "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R amazon-select-skills/skills/amazon-product-direction amazon-select-skills/skills/amazon-profit-analysis "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
 调用示例：
@@ -34,6 +39,21 @@ $amazon-product-direction 对指定关键词的前20竞品做深度研究，按�
 ```
 
 技能可自动选用。模板也可直接下载后在 Excel 中填写；自动生成工作簿需要 Codex 工作区的 Node 运行时和 `@oai/artifact-tool`，并使用 spreadsheets 技能。生成脚本本身负责工作簿计算与导出，商品采集由 agent 执行；第三方工具的账号权限按实际可用情况确认。
+
+利润分析调用示例：
+
+```text
+$amazon-profit-analysis 测算这个美国站FBA产品的利润。先检查必要条件，缺项向我询问，补齐后输出成本明细、毛利、净利和保本ACoS。
+```
+
+利润技能的JSON计算器仅依赖Node内置库，可独立运行：
+
+```bash
+node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
+  --input /path/to/input.json --output /path/to/profit-result.json
+```
+
+参考[输入模板](skills/amazon-profit-analysis/assets/input-template.json)和[必要条件](skills/amazon-profit-analysis/references/input-contract.md)。缺项返回码2及`needs_input`，完整净利为空；agent据此向用户追问。完整输入才返回计算结果，金额未知与真实零费用分开处理，跨币种需要汇率，ACoS和整体订单广告口径分别验证。单件算术不强求ASIN、销量或可以由准确费用金额替代的尺寸重量。
 
 ## 默认评分与利润规则
 
@@ -64,3 +84,5 @@ $amazon-product-direction 对指定关键词的前20竞品做深度研究，按�
 - [市场、竞争与利润研究方法](skills/amazon-product-direction/references/research-method.md)
 - [Excel字段、JSON输入与生成命令](skills/amazon-product-direction/references/workbook-schema.md)
 - [方法与工具数据源](skills/amazon-product-direction/assets/methods.json)
+- [利润模型与官方工具](skills/amazon-profit-analysis/references/profit-model.md)
+- [利润计算器测试](skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs)：运行`node --test skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs`

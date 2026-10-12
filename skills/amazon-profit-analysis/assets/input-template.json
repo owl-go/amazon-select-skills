@@ -1,0 +1,36 @@
+{
+  "context": {
+    "product_name": "",
+    "asin": null,
+    "marketplace": null,
+    "currency": null,
+    "fulfillment": null,
+    "unit": null,
+    "price_tax_basis": null,
+    "cost_scope_confirmed": null
+  },
+  "price": { "amount": null, "currency": null, "source": "", "status": null },
+  "costs": {
+    "purchase": { "amount": null, "currency": null, "source": "", "status": null },
+    "inbound": { "amount": null, "currency": null, "source": "", "status": null },
+    "referral": { "amount": null, "currency": null, "source": "", "status": null },
+    "fulfillment": { "amount": null, "currency": null, "source": "", "status": null },
+    "packaging_other": { "amount": null, "currency": null, "source": "", "status": null },
+    "storage": { "amount": null, "currency": null, "source": "", "status": null },
+    "tax": { "amount": null, "currency": null, "source": "", "status": null },
+    "returns": { "amount": null, "currency": null, "source": "", "status": null },
+    "overhead": { "amount": null, "currency": null, "source": "", "status": null }
+  },
+  "advertising": {
+    "mode": null,
+    "acos": 0.30,
+    "revenue_share": null,
+    "tacos": null,
+    "scope": null,
+    "unit_cost": null,
+    "source": "既定用户目标ACoS30%，为广告情景，非实测",
+    "status": "scenario"
+  },
+  "policy": { "target_acos": 0.30, "margin_buffer": 0.05 },
+  "fx": []
+}
