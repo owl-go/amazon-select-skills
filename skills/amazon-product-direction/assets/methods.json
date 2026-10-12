@@ -1,0 +1,374 @@
+{
+  "provenance": {
+    "thread_title": "列举亚马逊选品方式",
+    "updated_at": "2026-10-12",
+    "note": "方法框架来自指定会话；评分与权重为本次可调整的初筛建议，非官方统计或成功率。资源未知按中性3分。工具能力核查官方资料，未登录付费账户。"
+  },
+  "methods": [
+    {
+      "name": "榜单选品法",
+      "type": "发现渠道",
+      "tools": "Amazon畅销／新品／心愿／飙升榜；Keepa",
+      "steps": "进入细分类目，记录具体产品并回看历史价格",
+      "pros": "站内线索直接、发现快",
+      "cons": "榜单快照与短期促销可能误导，热门同款集中",
+      "verification": "核查历史、目标关键词和新品表现",
+      "scenario": "无明确方向，建立类目认知",
+      "enabled": "是",
+      "scores": [
+        4,
+        2,
+        4,
+        3,
+        5
+      ],
+      "score_basis": "站内信号较直接；差异化弱，需另找购买理由",
+      "sources": [
+        "https://sell.amazon.com/blog/amazon-best-sellers-rank",
+        "https://keepa.com/"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "软件选品法",
+      "type": "发现渠道",
+      "tools": "Jungle Scout Product Database／Opportunity Finder 或卖家精灵；POE",
+      "steps": "按站点、价格、尺寸等筛选后核查商品页",
+      "pros": "批量效率高、可比较多个维度",
+      "cons": "数据含估算；父子体口径和筛选同质化",
+      "verification": "确认父体、来源日期，回到Amazon原页",
+      "scenario": "批量建立候选池",
+      "enabled": "是",
+      "scores": [
+        4,
+        2,
+        5,
+        3,
+        3
+      ],
+      "score_basis": "效率高但估算与同质化减分，付费权限待确认",
+      "sources": [
+        "https://www.junglescout.com/features/product-database/",
+        "https://www.sellersprite.com/cn",
+        "https://sell.amazon.com/tools/product-opportunity-explorer"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "国内电商选品法",
+      "type": "发现渠道",
+      "tools": "淘宝、拼多多、1688；Amazon搜索",
+      "steps": "发现结构和组合，用目标市场表达反向搜索",
+      "pros": "形态丰富、供货和改款线索直接",
+      "cons": "国内热销不证明海外需求，同款易比价",
+      "verification": "补目标站点需求、规格和本地化证据",
+      "scenario": "找产品形态与供应线索",
+      "enabled": "是",
+      "scores": [
+        2,
+        3,
+        4,
+        3,
+        4
+      ],
+      "score_basis": "国内信号迁移风险高，发现效率较好",
+      "sources": [
+        "https://www.1688.com/",
+        "https://sell.amazon.com/tools/product-opportunity-explorer"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "关键词选品法",
+      "type": "发现渠道",
+      "tools": "卖家精灵关键词选品／挖掘；Jungle Scout Keyword Scout；Google Trends／POE",
+      "steps": "稳定、增长、长尾词分组，匹配买家意图",
+      "pros": "从需求出发，易衔接场景和广告",
+      "cons": "搜索不等于购买，品牌词和小基数增长误导",
+      "verification": "核查绝对量、周期、相关性与商品结果",
+      "scenario": "有类目或目标人群，研究细分需求",
+      "enabled": "是",
+      "scores": [
+        5,
+        4,
+        4,
+        3,
+        4
+      ],
+      "score_basis": "需求与产品匹配较强，需过滤非购买意图",
+      "sources": [
+        "https://cn.sellersprite.com/cn/help/market-selection-guide",
+        "https://support.junglescout.com/hc/en-us/articles/360008770253-Keyword-Scout",
+        "https://support.google.com/trends/answer/4365533?hl=zh-Hans"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "前台自动索引选品法",
+      "type": "发现渠道",
+      "tools": "Amazon搜索自动补全、类目导航、筛选属性、关联商品",
+      "steps": "核心词逐层扩展人群、规格与关联配件",
+      "pros": "成本低、贴近搜索用语、适合垂直扩品",
+      "cons": "无绝对需求规模，地区及个性化有影响",
+      "verification": "补关键词数据和重复出现的真实需求",
+      "scenario": "已有目标，垂直类目深挖",
+      "enabled": "是",
+      "scores": [
+        3,
+        3,
+        3,
+        3,
+        5
+      ],
+      "score_basis": "低获取成本；自动补全仅为线索",
+      "sources": [
+        "https://www.amazon.com/",
+        "https://sell.amazon.com/tools/product-opportunity-explorer"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "产业链／产业带选品法",
+      "type": "发现渠道",
+      "tools": "1688、行业协会、展会目录、工厂官网；Jungle Scout供应商工具可选",
+      "steps": "从材料、工艺及成品对应海外场景",
+      "pros": "有利于改款、品质、交期与供货能力",
+      "cons": "拿货方便不代表需求成立，产业带同质化",
+      "verification": "验证目标站点需求、MOQ和改款实现能力",
+      "scenario": "有产业资源或懂工艺",
+      "enabled": "是",
+      "scores": [
+        2,
+        4,
+        3,
+        3,
+        3
+      ],
+      "score_basis": "改款潜力强；用户资源未知暂中性3分",
+      "sources": [
+        "https://www.1688.com/",
+        "https://www.alibaba.com/",
+        "https://www.junglescout.com/features/product-database/"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "优秀店铺选品法",
+      "type": "发现渠道",
+      "tools": "Amazon卖家商品列表、品牌店铺、商品页；Keepa／卖家精灵辅助",
+      "steps": "比较能力相近店铺的新品、配件与产品组合",
+      "pros": "参考具体、能理解扩品路径",
+      "cons": "成功样本偏差，看不到广告及实际利润",
+      "verification": "同时记录停滞款，首批就找具体差异",
+      "scenario": "学习品类、找相邻产品",
+      "enabled": "是",
+      "scores": [
+        4,
+        3,
+        4,
+        3,
+        4
+      ],
+      "score_basis": "站内商品可核查；资源相近需用户确认",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://keepa.com/"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "社交媒体选品法",
+      "type": "发现渠道",
+      "tools": "Facebook、TikTok、Instagram、YouTube、Reddit；TikTok Creative Center",
+      "steps": "按国家、人群、场景记录问题与购买讨论",
+      "pros": "善于发现新场景和未表达的痛点",
+      "cons": "播放量非销量，赞助内容和算法有偏差",
+      "verification": "多帖交叉核对，再查Amazon需求与关键词",
+      "scenario": "人群明确，寻找痛点与传播切入",
+      "enabled": "是",
+      "scores": [
+        2,
+        5,
+        3,
+        3,
+        4
+      ],
+      "score_basis": "差异化线索强；成交需求证据较弱",
+      "sources": [
+        "https://ads.tiktok.com/resources/help/article/creative-center?redirected=2",
+        "https://sell.amazon.com/tools/product-opportunity-explorer"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "跨平台／跨市场法",
+      "type": "发现渠道",
+      "tools": "其他Amazon站点、eBay、Etsy、Walmart、AliExpress；Google Trends",
+      "steps": "记录原市场条件，检查目标站点产品缺口",
+      "pros": "拓展来源，可借鉴成熟改良",
+      "cons": "流量、文化、规格和购买习惯不可直接迁移",
+      "verification": "目标市场需求与本地化规格交叉验证",
+      "scenario": "有类目经验或跨站点资源",
+      "enabled": "是",
+      "scores": [
+        3,
+        4,
+        3,
+        3,
+        3
+      ],
+      "score_basis": "潜在缺口较好，但跨市场验证成本高",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://support.google.com/trends/answer/4365533?hl=zh-Hans"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "差评痛点法",
+      "type": "补充视角",
+      "tools": "Amazon1–3星评论、POE、卖家精灵评论分析；Excel",
+      "steps": "归类重复问题，提出可验证的改良方案",
+      "pros": "购买理由具体、可追溯到买家问题",
+      "cons": "负面样本有偏差，解决成本可能过高",
+      "verification": "区分质量、适配、场景与误用，验证增量成本",
+      "scenario": "融入所有渠道的候选验证",
+      "enabled": "否",
+      "scores": [
+        4,
+        5,
+        3,
+        3,
+        5
+      ],
+      "score_basis": "痛点与差异化强；不把少数评论当市场总需求",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://www.sellersprite.com/cn"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "细分人群／场景法",
+      "type": "补充视角",
+      "tools": "Amazon搜索、关键词工具、Reddit／Facebook／YouTube",
+      "steps": "定义谁在何时遇到什么问题，再查现有方案",
+      "pros": "需求边界清楚，方便产品与文案统一",
+      "cons": "场景过窄可能容量不足",
+      "verification": "验证人群规模、需求持续性及购买意图",
+      "scenario": "融入关键词和社交研究",
+      "enabled": "否",
+      "scores": [
+        3,
+        5,
+        3,
+        3,
+        4
+      ],
+      "score_basis": "差异化清楚，市场规模仍需补证",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://support.junglescout.com/hc/en-us/articles/360008770253-Keyword-Scout"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "产品差异化法",
+      "type": "补充视角",
+      "tools": "竞品页与差评、工厂打样、1688、POE；Excel",
+      "steps": "围绕结构、材质、尺寸形成改善与验证计划",
+      "pros": "减少同款比价，可持续迭代",
+      "cons": "开发、质检、库存成本上升，改良未必被重视",
+      "verification": "验证愿付价格和增量成本，复算利润",
+      "scenario": "融入候选的购买理由",
+      "enabled": "否",
+      "scores": [
+        3,
+        5,
+        2,
+        3,
+        3
+      ],
+      "score_basis": "创新空间强，开发效率和成本受限",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://www.sellersprite.com/cn"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "配件／组合选品法",
+      "type": "补充视角",
+      "tools": "Amazon关联商品、自动补全、关键词工具、1688",
+      "steps": "延伸替换、维护、收纳和任务套装",
+      "pros": "发现相邻需求、提升使用完整性",
+      "cons": "兼容退货、体积和组合成本上升",
+      "verification": "核查适配对象、套装价值及包装费用",
+      "scenario": "垂直产品线延伸",
+      "enabled": "否",
+      "scores": [
+        3,
+        4,
+        3,
+        3,
+        4
+      ],
+      "score_basis": "相邻需求清楚，兼容性与组合利润需验证",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://support.junglescout.com/hc/en-us/articles/360008770253-Keyword-Scout"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "趋势与季节选品法",
+      "type": "补充视角",
+      "tools": "Google Trends、Keepa、关键词历史、榜单、TikTok Creative Center",
+      "steps": "记录变化与季节，比较备货到达时的窗口",
+      "pros": "能识别变化与周期机会",
+      "cons": "热点短暂、小基数增长、库存窗口风险",
+      "verification": "核对历史周期及开发运输时间",
+      "scenario": "融入榜单、关键词和社交方法",
+      "enabled": "否",
+      "scores": [
+        3,
+        3,
+        4,
+        3,
+        4
+      ],
+      "score_basis": "趋势可观察，持续成交与时间窗口不确定",
+      "sources": [
+        "https://support.google.com/trends/answer/4365533?hl=zh-Hans",
+        "https://keepa.com/",
+        "https://ads.tiktok.com/resources/help/article/creative-center?redirected=2"
+      ],
+      "checked_at": "2026-10-12"
+    },
+    {
+      "name": "竞品分析法",
+      "type": "补充视角",
+      "tools": "Amazon前20、Jungle Scout／卖家精灵、POE；Excel",
+      "steps": "核查评论壁垒、变体覆盖、新品与价格错配",
+      "pros": "直接支持进入空间判断",
+      "cons": "快照及父子体口径误导，公开信息不含利润",
+      "verification": "统一口径并补差评、历史与自有方案成本",
+      "scenario": "贯穿全部方法的验证",
+      "enabled": "否",
+      "scores": [
+        4,
+        3,
+        3,
+        3,
+        4
+      ],
+      "score_basis": "站内证据较直接，需去重与口径校验",
+      "sources": [
+        "https://sell.amazon.com/tools/product-opportunity-explorer",
+        "https://www.junglescout.com/features/product-database/",
+        "https://www.sellersprite.com/cn"
+      ],
+      "checked_at": "2026-10-12"
+    }
+  ]
+}
