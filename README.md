@@ -64,4 +64,3 @@ $amazon-product-direction 对指定关键词的前20竞品做深度研究，按�
 - [市场、竞争与利润研究方法](skills/amazon-product-direction/references/research-method.md)
 - [Excel字段、JSON输入与生成命令](skills/amazon-product-direction/references/workbook-schema.md)
 - [方法与工具数据源](skills/amazon-product-direction/assets/methods.json)
-
