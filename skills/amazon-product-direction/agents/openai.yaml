@@ -1,7 +1,7 @@
 interface:
-  display_name: "亚马逊选品"
-  short_description: "按方法与工具加权初筛，输出Excel选品表及包含推荐商品与理由的网页报告"
-  default_prompt: "请使用 $amazon-product-direction 整理选品方法与工具，发现候选并做加权初筛，按广告成本和毛利门槛验证利润，输出Excel选品表，并在网页端展示推荐商品、推荐理由、利润状态及下一步。"
+  display_name: "亚马逊选品总入口"
+  short_description: "依次调用四项分析并汇总网页报告，缺利润输入必追问，输出选品表与推荐理由"
+  default_prompt: "请使用 $amazon-product-direction 作为选品总入口，发现与初筛候选后依次调用类目、关键词、差异化和利润分析技能，汇总各自网页报告，最终输出Excel选品表，并在网页端展示推荐商品和推荐理由。利润计算缺少必要条件时必须让我输入，补齐后再计算。"
 
 policy:
   allow_implicit_invocation: true

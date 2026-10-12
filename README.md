@@ -8,7 +8,7 @@
 
 | 技能 | 用途 |
 |---|---|
-| [amazon-product-direction](skills/amazon-product-direction/SKILL.md) | 输出Excel选品表＋网页推荐报告，展示推荐商品、理由、利润状态及下一步 |
+| [amazon-product-direction](skills/amazon-product-direction/SKILL.md) | 选品总入口：依次调用四项分析，汇总报告，输出Excel选品表＋网页推荐商品与理由 |
 | [amazon-profit-analysis](skills/amazon-profit-analysis/SKILL.md) | 网页利润分析报告；必要输入缺失时要求用户补充，补齐后计算 |
 | [amazon-category-analysis](skills/amazon-category-analysis/SKILL.md) | 网页类目分析报告；市场容量、Top100销量与Top100／Top50竞争门槛 |
 | [amazon-keyword-analysis](skills/amazon-keyword-analysis/SKILL.md) | 网页研究核心词、长尾词、搜索量、竞争和CPC竞价，输出有来源的HTML报告 |
@@ -27,6 +27,10 @@
 - [Excel选品表模板](skills/amazon-product-direction/assets/亚马逊选品表.xlsx)，包含七个工作表，商品实采区留空。
 
 五个技能均含可直接打开的单文件HTML报告模板。类目、关键词、利润、差异化技能被选品流程调用时只返回报告与证据，由选品技能统一写入选品表；单独调用不会生成或更新选品表。网页／文件能力不足时交付完整可读报告并说明具体限制，不声称已完成网页展示。网页中的初筛推荐表示优先研究，完整进入仍受利润否决及其他证据约束。
+
+完整选品只需调用amazon-product-direction：发现与初筛 → amazon-category-analysis → amazon-keyword-analysis → amazon-differentiation-analysis → amazon-profit-analysis → 选品表与推荐网页。总入口汇总四类独立网页报告，提供各阶段结论、执行状态、缺项和可打开的报告链接；分析技能只完成当前阶段，后续调用由总入口推进。实际可读报告与同范围证据可以复用，记录版本和核验，不重复采集。
+
+未限定阶段时默认完整流程；仅明确要求初筛或模板时才在该阶段交付。利润计算缺必要输入必须让用户输入，补齐后重算；等待期间继续不依赖答案的工作，不能以“待验证”结束完整利润请求或给可做推荐。按拟推荐的自有方案核算，差异化增量成本纳入改进后的完整金额，未知费用不设0。
 
 ## 安装与使用
 
@@ -103,12 +107,14 @@ python3 scripts/install_skills.py --list
 
 目录按2026-10-12官方文档核对。旧环境若从`~/.codex/skills`或`$CODEX_HOME/skills`发现技能，可用`--dest`指定该目录。请选择一个安装位置，避免在多个被同一agent扫描的目录中保留同名技能。项目安装需要明确的已有项目目录；全局安装仅影响当前机器，云端agent需要把技能部署到它能读取的项目/运行环境。
 
+完整总入口建议不带--skill安装全部五个技能。单独安装选品技能不自动安装依赖；总入口会查找实际可用的四个分析技能，缺失时说明安装方式，不能冒称调用或完整报告已完成。不同agent可用原生技能调用，或在同一会话中依次读取四个SKILL.md并执行，不需要专用多agent工具。
+
 ### 调用与工具能力
 
 Codex可用`$amazon-product-direction`、`$amazon-category-analysis`、`$amazon-profit-analysis`、`$amazon-keyword-analysis`、`$amazon-differentiation-analysis`；Claude Code可用对应的`/amazon-product-direction`、`/amazon-category-analysis`、`/amazon-profit-analysis`、`/amazon-keyword-analysis`、`/amazon-differentiation-analysis`。其他agent使用其技能选择器或自然语言要求使用对应技能。
 
 ```text
-使用amazon-product-direction，为美国站厨房收纳建立候选池，记录方法、来源和初筛依据，输出Excel选品表，并在网页端给出推荐商品与推荐理由。
+使用amazon-product-direction作为总入口，为美国站厨房收纳发现与初筛候选，依次调用类目、关键词、差异化和利润分析，汇总各自网页报告，最终输出Excel选品表与推荐网页；利润计算缺必要条件时必须让我输入。
 ```
 
 ```text
@@ -157,7 +163,7 @@ node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
 
 各维度按1–5分评估，乘权重后换算为100分。方法分用于分配研究投入；商品分按实际证据计算。同一产品经多个渠道发现时合并来源，不重复加分。默认初筛75分及以上优先深挖，60–74.9分保留观察，低于60分暂缓。权重与分档均可调整；评分表示研究优先级。
 
-利润独立判断：默认毛利率至少达到目标ACoS加5个百分点安全余量，即ACoS为30%时最低毛利率为35%。完整成本下净利润还须大于0。已知利润不达标直接淘汰，其他高分无法抵消；缺成本保持待验证。广告成本按广告归因订单情景计算，ACoS与TACoS的口径分别保留。
+利润独立判断：默认毛利率至少达到目标ACoS加5个百分点安全余量，即ACoS为30%时最低毛利率为35%。完整成本下净利润还须大于0。已知利润不达标直接淘汰，其他高分无法抵消；初筛未进入利润阶段可保持待验证，完整流程利润缺必要输入必须追问并补齐后重算。广告成本按广告归因订单情景计算，ACoS与TACoS的口径分别保留。
 
 ## 选品表
 
@@ -173,6 +179,7 @@ node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
 
 ## 参考与生成器
 
+- [总入口调用流程、四报告交接与利润输入关卡](skills/amazon-product-direction/references/workflow.md)
 - [方法、工具与初筛规则](skills/amazon-product-direction/references/selection-methods.md)
 - [市场、竞争与利润研究方法](skills/amazon-product-direction/references/research-method.md)
 - [三层竞争分析、阈值与工具降级](skills/amazon-product-direction/references/competition-analysis.md)
