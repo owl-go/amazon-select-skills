@@ -125,6 +125,23 @@ class InstallerTests(unittest.TestCase):
         for name in self.names:
             self.assertEqual(installer.signature(self.source / name),installer.signature(self.base / '.claude/skills' / name))
 
+    def test_category_only_install_is_self_contained(self):
+        script = ROOT / 'scripts/install_skills.py'
+        subprocess.run([sys.executable,str(script),'--dest',str(self.dest),'--skill','amazon-category-analysis'],check=True,capture_output=True,text=True,cwd=self.base)
+        package = self.dest / 'amazon-category-analysis'
+        for name in ['market-capacity.md','category-competition.md','output-contract.md']:
+            self.assertTrue((package / 'references' / name).is_file())
+        self.assertEqual(installer.signature(package), installer.signature(self.source / 'amazon-category-analysis'))
+        self.assertFalse((self.dest / 'amazon-product-direction').exists())
+        self.assertFalse((self.dest / 'amazon-profit-analysis').exists())
+
+    def test_category_rule_mirror_is_current_for_independent_selection_install(self):
+        subprocess.run([sys.executable,str(ROOT / 'scripts/sync_category_reference.py'),'--check'],check=True,capture_output=True,text=True,cwd=self.base)
+        subprocess.run([sys.executable,str(ROOT / 'scripts/install_skills.py'),'--dest',str(self.dest),'--skill','amazon-product-direction'],check=True,capture_output=True,text=True)
+        reference = self.dest / 'amazon-product-direction/references/category-competition.md'
+        self.assertEqual(reference.read_bytes(), (self.source / 'amazon-category-analysis/references/category-competition.md').read_bytes())
+        self.assertFalse((self.dest / 'amazon-category-analysis').exists())
+
     @unittest.skipIf(shutil.which('sh') is None,'POSIX shell unavailable')
     def test_shell_entrypoint_from_other_working_directory(self):
         subprocess.run(['sh',str(ROOT/'install.sh'),'--dest',str(self.dest),'--skill','amazon-product-direction'],cwd=self.base,check=True,capture_output=True,text=True)

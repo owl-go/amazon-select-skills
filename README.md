@@ -4,25 +4,27 @@
 
 ## 内容
 
-本仓库包含两个可独立使用的技能：
+本仓库包含三个可独立使用的技能：
 
 | 技能 | 用途 |
 |---|---|
 | [amazon-product-direction](skills/amazon-product-direction/SKILL.md) | 发现候选、加权初筛、市场与竞争研究，输出选品表 |
 | [amazon-profit-analysis](skills/amazon-profit-analysis/SKILL.md) | 单品利润与广告承受力分析；必要输入缺失时要求用户补充，补齐后计算 |
+| [amazon-category-analysis](skills/amazon-category-analysis/SKILL.md) | 市场容量与类目竞争；ASIN反查、Top100销量、单品经验区间和Top100／Top50门槛 |
 
 - 9种发现渠道及6个补充视角，分别记录对应工具、操作、优缺点和补验动作。
 - 可调整的方法优先分和研究投入权重，以及独立的商品初筛得分。
 - 前20竞品的评论壁垒、变体策略、新品机会、价格与评分错配分析。
 - 三层竞争分析：BSR Top100新品／垄断／卖家类型／星级，Top50低评论卖家，核心词竞价与店铺实力。
 - 有Sorftime key时优先使用；未提供则降级Flapen＋ASINSIGHT，按实际覆盖补证。Keepa历史辅助店铺分析，站外推广由网页链接核实。
+- 类目容量按关键词需求、类目销量与单品销量交叉验证；Jungle Scout无key跳过反查，截图经验倍数与工具估算分别保存。
 - 1–3星差评按质量与耐用性、尺寸与适配、使用场景缺失归类。
 - 利润一票否决，缺失成本保持待验证。
 - [Excel选品表模板](skills/amazon-product-direction/assets/亚马逊选品表.xlsx)，包含七个工作表，商品实采区留空。
 
 ## 安装与使用
 
-本仓库使用通用[Agent Skills格式](https://agentskills.io/specification)。两个技能的SKILL.md、规则、输入和资源可供支持该格式的agent读取；agents/openai.yaml是可选的Codex/ChatGPT UI元数据。提问采用当前agent的输入工具或直接对话，必要输入缺失时必须追问。
+本仓库使用通用[Agent Skills格式](https://agentskills.io/specification)。三个技能的SKILL.md、规则、输入和资源可供支持该格式的agent读取；agents/openai.yaml是可选的Codex/ChatGPT UI元数据。提问采用当前agent的输入工具或直接对话，必要计算输入缺失时必须追问；Jungle Scout无key属于明确跳过的工具路径，不阻塞其他类目分析。
 
 ### 安装脚本
 
@@ -36,10 +38,10 @@ cd amazon-select-skills
 macOS / Linux：
 
 ```bash
-# Claude Code：全局安装两个技能
+# Claude Code：全局安装全部技能
 sh install.sh --agent claude
 
-# Codex：全局安装两个技能
+# Codex：全局安装全部技能
 sh install.sh --agent codex
 
 # 同时安装到Codex、Claude Code、Cursor、OpenCode
@@ -47,6 +49,9 @@ sh install.sh --agent all
 
 # 只安装利润分析
 sh install.sh --agent cursor --skill amazon-profit-analysis
+
+# 只安装类目分析；已有技能更新时加--force
+sh install.sh --agent claude --skill amazon-category-analysis
 
 # 指定项目目录安装
 sh install.sh --agent claude --scope project --project-dir /path/to/project
@@ -88,7 +93,7 @@ python3 scripts/install_skills.py --list
 
 ### 调用与工具能力
 
-Codex可用`$amazon-product-direction`、`$amazon-profit-analysis`；Claude Code可用`/amazon-product-direction`、`/amazon-profit-analysis`。其他agent使用其技能选择器或自然语言要求使用对应技能。
+Codex可用`$amazon-product-direction`、`$amazon-category-analysis`、`$amazon-profit-analysis`；Claude Code可用对应的`/amazon-product-direction`、`/amazon-category-analysis`、`/amazon-profit-analysis`。其他agent使用其技能选择器或自然语言要求使用对应技能。
 
 ```text
 使用amazon-product-direction，为美国站厨房收纳建立候选池，记录方法、来源和初筛依据，输出选品表。
@@ -97,6 +102,12 @@ Codex可用`$amazon-product-direction`、`$amazon-profit-analysis`；Claude Code
 ```text
 使用amazon-profit-analysis，测算这个商品的利润；必要条件缺失先向我询问，补齐后计算毛利、净利和保本广告率。
 ```
+
+```text
+使用amazon-category-analysis，分析美国站目标类目的市场容量和竞争；有Jungle Scout key时做ASIN反查，无key跳过，保留工具来源与经验情景的区别。
+```
+
+类目分析包含两部分：容量按关键词反查、同周期Top100销量、目标排名和单品估算交叉验证；竞争沿用Top100新品、评论、品牌／店铺垄断、卖家类型、内容与星级，以及Top50低评论去重卖家规则。截图中的Top100销量×2–5、评价数×20–30属于经验情景；搜索排名不直接换算本次搜索量，“历史销量÷上架天数”先得到日均，再换算目标月份。普通网页会员与API权限分别核验，密钥不写入报告。
 
 利润JSON计算器可在支持Node的任何终端运行，推荐Node18或以上，只依赖内置库：
 
@@ -139,7 +150,12 @@ node skills/amazon-profit-analysis/scripts/calculate_profit.mjs \
 - [方法、工具与初筛规则](skills/amazon-product-direction/references/selection-methods.md)
 - [市场、竞争与利润研究方法](skills/amazon-product-direction/references/research-method.md)
 - [三层竞争分析、阈值与工具降级](skills/amazon-product-direction/references/competition-analysis.md)
+- [类目市场容量方法](skills/amazon-category-analysis/references/market-capacity.md)
+- [类目竞争规则](skills/amazon-category-analysis/references/category-competition.md)
+- [类目报告与选品表交接](skills/amazon-category-analysis/references/output-contract.md)
 - [Excel字段、JSON输入与生成命令](skills/amazon-product-direction/references/workbook-schema.md)
 - [方法与工具数据源](skills/amazon-product-direction/assets/methods.json)
 - [利润模型与官方工具](skills/amazon-profit-analysis/references/profit-model.md)
 - [利润计算器测试](skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs)：运行`node --test skills/amazon-profit-analysis/scripts/calculate_profit.test.mjs`
+
+类目竞争规则的维护源为类目分析技能的references/category-competition.md。选品技能带同内容的本地副本，保证单独安装后仍可读取；修改维护源后运行`python3 scripts/sync_category_reference.py`，使用`--check`检查一致性。安装器自动发现skills下的技能，默认all会安装三个技能，现有macOS／Linux及Windows入口无需变更。
