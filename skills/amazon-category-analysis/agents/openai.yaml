@@ -1,7 +1,7 @@
 interface:
   display_name: "亚马逊类目分析"
-  short_description: "分析关键词需求、类目销量与竞争门槛，区分工具估算、经验情景及缺项"
-  default_prompt: "请使用 $amazon-category-analysis 分析目标类目的市场容量与类目竞争，未提供Jungle Scout key时跳过反查，记录来源、统计口径和缺项，并说明下一步验证。"
+  short_description: "在网页端分析关键词需求、类目销量与竞争门槛，记录估算、经验情景及缺项"
+  default_prompt: "请使用 $amazon-category-analysis 在网页端输出目标类目的市场容量与竞争分析报告，未提供Jungle Scout key时跳过反查，记录来源、统计口径和缺项，说明下一步验证。"
 
 policy:
   allow_implicit_invocation: true

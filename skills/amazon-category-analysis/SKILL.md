@@ -1,6 +1,6 @@
 ---
 name: amazon-category-analysis
-description: 亚马逊类目分析：研究市场容量与类目竞争，按关键词需求、Top100销量和单品销量交叉估算容量，按Top100／Top50分析进入门槛。Jungle Scout未提供key时跳过反查，Sorftime无key时降级Flapen＋ASINSIGHT。用于类目容量评估、类目竞争或进入空间研究；完整利润测算由利润分析技能处理。
+description: 亚马逊类目分析：研究市场容量与类目竞争，按关键词需求、Top100销量和单品销量交叉估算容量，按Top100／Top50分析进入门槛，输出网页分析报告。Jungle Scout未提供key时跳过反查，Sorftime无key时降级Flapen＋ASINSIGHT。用于类目容量评估、类目竞争或进入空间研究。
 ---
 
 # 亚马逊类目分析
@@ -20,8 +20,8 @@ Sorftime有可用key时优先做BSR类目分析；无key时直接降级Flapen＋
 1. 固定研究范围及周期，建立工具状态表（已使用／读取提供数据／未提供key跳过／无权限／未覆盖）。模板或技能配置请求只创建规则与空表，不采集或追问真实商品成本。
 2. 分析市场容量时读取[market-capacity.md](references/market-capacity.md)。反查代表ASIN的关键词，核对搜索量及搜索排名；统计完整Top100可得销量，查看代表产品与目标排名销量。分别给出工具估算和经验情景，保留原始来源及缺口。需要深入关键词分析时可衔接可用的amazon-keyword-analysis网页流程；保留本技能的Jungle Scout跳过规则，关键词需求不代替类目销量。
 3. 分析类目竞争时读取[category-competition.md](references/category-competition.md)。执行Top100新品、评论、垄断、卖家类型、内容及星级分析，或Top50低评论卖家分析；两条都可得时交叉核验。保持样本与分母独立。
-4. 按[output-contract.md](references/output-contract.md)输出容量与竞争结论表、关键词与榜单证据、工具状态及下一步。容量只描述需求与可争取的销量范围，竞争信号只描述门槛；二者不能单独断言商品可做。
-5. 衔接选品时写入现有选品工作簿的“市场与关键词”“竞争分析”“类目判断”，保留用户数据和公式。最终可做结论仍需自有方案利润、关键词广告承受力和差异化验证；进入完整利润测算，必要输入缺失必须向用户追问。
+4. 按[output-contract.md](references/output-contract.md)填写[report-template.html](assets/report-template.html)，在网页端展示容量与竞争结论、关键词与榜单证据、工具状态及下一步。本技能只交付类目网页分析报告，不生成或更新选品表。容量只描述需求与可争取的销量范围，竞争信号只描述门槛；二者不能单独断言商品可做。
+5. 衔接选品时返回报告及可追溯证据，由amazon-product-direction负责汇总到选品表及推荐网页。最终可做结论仍需自有方案利润、关键词广告承受力和差异化验证；进入完整利润测算，必要输入缺失必须向用户追问。
 
 ## 完成条件
 

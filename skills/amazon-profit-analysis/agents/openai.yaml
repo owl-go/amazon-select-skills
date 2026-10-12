@@ -1,7 +1,7 @@
 interface:
   display_name: "亚马逊利润分析"
-  short_description: "核验售价、成本及广告口径，必要输入缺失时追问用户，再计算利润与否决门槛"
-  default_prompt: "请使用 $amazon-profit-analysis 分析这个商品的利润，先核验必要输入，缺项必须向我询问，补齐后计算毛利、广告后利润、完整成本净利与盈亏平衡广告率。"
+  short_description: "核验成本与广告口径，缺必要输入先追问，补齐后在网页端输出利润与否决报告"
+  default_prompt: "请使用 $amazon-profit-analysis 分析这个商品的利润，先核验必要输入，缺项必须向我询问，补齐后在网页端输出毛利、广告后利润、完整成本净利、盈亏平衡广告率与利润否决分析报告。"
 
 policy:
   allow_implicit_invocation: true
