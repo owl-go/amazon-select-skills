@@ -4,7 +4,7 @@
     "asin": null,
     "marketplace": null,
     "currency": null,
-    "fulfillment": null,
+    "fulfillment": "FBA",
     "unit": null,
     "price_tax_basis": null,
     "cost_scope_confirmed": null
