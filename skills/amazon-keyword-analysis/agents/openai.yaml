@@ -1,0 +1,7 @@
+interface:
+  display_name: "亚马逊关键词分析"
+  short_description: "用网页研究核心词、长尾词、搜索量、竞争与CPC，输出有来源的HTML报告"
+  default_prompt: "请使用 $amazon-keyword-analysis 直接通过网页分析目标产品的核心关键词、长尾词、搜索量、竞争程度和CPC竞价，区分建议竞价与实际CPC，生成HTML分析报告并记录来源、周期与缺项。"
+
+policy:
+  allow_implicit_invocation: true

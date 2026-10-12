@@ -21,7 +21,7 @@ description: 亚马逊选品：按发现方法及工具建立候选池，做可�
 
 1. 读取 [selection-methods.md](references/selection-methods.md)，选择适合已有权限与资源的发现渠道；记录主方法与辅助方法，不必执行全部。根据证据做初筛，按方法优缺点调整研究优先级，去重且不重复计分。
 2. 读取 [research-method.md](references/research-method.md)，确认五项分析、可比规格与利润规则。仅初筛请求可先交付候选池和分数，缺利润保持待验证，不把初筛入选当最终可做。
-3. 收集市场容量与关键词证据；市场竞争分析读取 [competition-analysis.md](references/competition-analysis.md)，分别分析BSR类目Top100／Top50、核心关键词竞价、竞品店铺实力。有用户提供的Sorftime key时优先使用；无key直接降级Flapen＋ASINSIGHT并记录逐项覆盖。深度研究另采关键词前20，分析评论壁垒、SKU、新品和错配；三个样本口径分别保存，缺项保持待验证。
+3. 收集市场容量与关键词证据；需要深入研究核心词、长尾词、搜索量与竞价时优先使用可用的amazon-keyword-analysis技能，将网页证据写回选品表；独立安装仍可按本技能研究方法执行。市场竞争分析读取 [competition-analysis.md](references/competition-analysis.md)，分别分析BSR类目Top100／Top50、核心关键词竞价、竞品店铺实力。有用户提供的Sorftime key时优先使用；无key直接降级Flapen＋ASINSIGHT并记录逐项覆盖。深度研究另采关键词前20，分析评论壁垒、SKU、新品和错配；三个样本口径分别保存，缺项保持待验证。
 4. 获取1–3星差评，按三类归纳，提出差异化与验证方式。针对自有产品方案核查完整成本并执行利润否决，核查专利与A+。已知利润失败即使初筛分高也排除。进入专门利润测算时，优先使用可用的 amazon-profit-analysis 技能；必要计算条件缺失必须向用户追问。初筛候选池仍允许利润待验证，不因尚未进入利润阶段而强求全部成本。
 5. 读取 [workbook-schema.md](references/workbook-schema.md)，通用路径是复制Excel模板，用当前agent可用的表格工具或通用xlsx库按字段与公式填表。有@oai/artifact-tool时可用scripts/write_selection.mjs生成及渲染，专用生成器不是使用本技能的前提。
 6. 重算并检查指定列、方法与初筛依据、权重合计、去重、阈值、利润否决及缺失值传递、来源和显示，交付.xlsx。

@@ -135,6 +135,15 @@ class InstallerTests(unittest.TestCase):
         self.assertFalse((self.dest / 'amazon-product-direction').exists())
         self.assertFalse((self.dest / 'amazon-profit-analysis').exists())
 
+    def test_keyword_only_install_is_self_contained(self):
+        script = ROOT / 'scripts/install_skills.py'
+        subprocess.run([sys.executable,str(script),'--dest',str(self.dest),'--skill','amazon-keyword-analysis'],check=True,capture_output=True,text=True,cwd=self.base)
+        package = self.dest / 'amazon-keyword-analysis'
+        for name in ['references/web-research.md','references/output-contract.md','assets/report-template.html','agents/openai.yaml']:
+            self.assertTrue((package / name).is_file())
+        self.assertEqual(installer.signature(package), installer.signature(self.source / 'amazon-keyword-analysis'))
+        self.assertEqual(sorted(path.name for path in self.dest.iterdir()), ['amazon-keyword-analysis'])
+
     def test_category_rule_mirror_is_current_for_independent_selection_install(self):
         subprocess.run([sys.executable,str(ROOT / 'scripts/sync_category_reference.py'),'--check'],check=True,capture_output=True,text=True,cwd=self.base)
         subprocess.run([sys.executable,str(ROOT / 'scripts/install_skills.py'),'--dest',str(self.dest),'--skill','amazon-product-direction'],check=True,capture_output=True,text=True)

@@ -126,7 +126,7 @@ def apply_plan(plan, dry_run=False):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(description="安装亚马逊选品、类目及利润分析 Agent Skills。默认全局安装到 ~/.agents/skills。")
+    parser = argparse.ArgumentParser(description="安装亚马逊选品、类目、关键词及利润分析 Agent Skills。默认全局安装到 ~/.agents/skills。")
     parser.add_argument("--agent", action="append", choices=(*AGENTS, "all"), help="可重复指定；all安装到Codex、Claude Code、Cursor、OpenCode各自目录")
     parser.add_argument("--skill", action="append", help="技能名称，可重复或逗号分隔；默认all")
     parser.add_argument("--scope", choices=("global", "project"), default="global")
